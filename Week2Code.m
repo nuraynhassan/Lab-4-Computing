@@ -74,3 +74,18 @@ x1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,p
 
 %R1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,params));
 
+%%Generate and plot different distirb
+thetaparams = scenario('nominal');
+theta = scenario('sample',thetaparams,1000);
+
+plot(theta(:,1));
+xlabel('mass of payload (kg)');
+figure;
+plot(theta(:,2));
+xlabel('C_D0 Distribution');
+figure;
+plot(theta(:,3));
+xlabel('e_b (J/kg)');
+figure;
+plot(theta(:,4));
+xlabel('V_w (m/s)');
