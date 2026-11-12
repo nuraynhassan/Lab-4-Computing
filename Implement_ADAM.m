@@ -56,7 +56,7 @@ plot(rad2deg(path(1,:)),rad2deg(path(2,:)), ...
     'r.-','LineWidth',1.5);
 
 plot(rad2deg(xstarrad(1)),rad2deg(xstarrad(2)), ...
-    'ko','MarkerFaceColor','k');
+    'ko','MarkerFaceColor','w');
 
 xlabel('Angle of Attack (deg)');
 ylabel('Elevator Deflection (deg)');
