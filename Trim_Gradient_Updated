@@ -1,0 +1,26 @@
+
+function G = trim_gradient(alpha, delta_e, params)
+
+q = 0.5*params(1)*params(5)^2;
+
+deltaCl = params(4)*exp(-(alpha/params(8))^2);
+
+Cl = params(2) + params(6)*alpha + params(10)*delta_e + deltaCl;
+
+Cm = params(3) + params(7)*alpha + params(11)*delta_e;
+
+E = (q*params(9)*Cl-params(12))/params(12);
+
+dClda = params(6) - (2*alpha/params(8)^2)*deltaCl;
+
+dCldd = params(10);
+
+% did differentiation by hand couldnt get it to work with diff
+dfda = 2*E*(q*params(9)/params(12))*dClda + 2*Cm*params(7);
+
+% did differentiation by hand couldnt get it to work with diff
+dfdd = 2*E*(q*params(9)/params(12))*dCldd + 2*Cm*params(11);
+
+G = [dfda; dfdd];
+
+end
