@@ -56,13 +56,15 @@ for i = 1:length(thetadist)
     [R1,g1] = uav_range(x,thetadist(i,:),params);
     RVals(i) = R1;
     gVals(i,:) = g1;
-    gdot1 = dot([1,1,1,1],g1);
+    g1nonneg = g1(g1 >=0);
+    gdot1 = sum(g1);
     score(i) = RVals(i) - gdot1 - 300;
 end
 
-[maxidx, maxscore] = max(score);
-maxx = x(maxidx,:);
-disp(maxx);
+[maxscore, maxidx] = max(score);
+maxx = xvec(maxidx,:);
+
+evaluate(x, 'nurayn.hassan@colorado.edu');
 
 function R = fun(x,theta,params)
 [R,g] = uav_range(x,theta,params);
