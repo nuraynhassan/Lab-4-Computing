@@ -64,20 +64,11 @@ end
 options = optimoptions('fmincon', 'Algorithm', 'SQP', 'Display', 'off', 'OptimalityTolerance', 1e-10, 'StepTolerance', 1e-12, 'ConstraintTolerance', 1e-10, 'MaxIterations', 500, 'MaxFunctionEvaluations', 5000);
 
 x1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],lower_bounds,upper_bounds,@(x) nonlcon(x,theta,params),options);
-%R=EV(1-Vw^2/V)
-% q = 0.5*params.rho*x1(4)^2;
-% W = 9.81*(theta(1,1) + x1(3) + params.mfix + params.mmax);
-% D=q*x1(1)*theta(1,2) + W^2/(q*x1(1)*pi*x(2));
-% r = x1(4)/params.Veta;
-% eta = params.etamax*2*r/(1+r^2);
-% E=(1-params.fres)*theta(1,3)*x1(3)*eta/(D*x(4));
-% R1=E*x1(4)*(1-theta(1,4)^2/x1(4)^2);
 
 [R1,g1] = uav_range(x1,theta,params)
 
-%R1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,params));
 
-%%Generate and plot different distributions
+%%Generate and plot theta different distributions
 thetaparams = scenario('nominal');
 theta = scenario('sample',thetaparams,1000);
 
