@@ -8,7 +8,7 @@ gVals = zeros(length(thetadist),4);
 gdpot1 = zeros(length(thetadist),1);
 xvec = zeros(length(thetadist),4);
 score = zeros(length(thetadist),1);
-x = [0.5, 12, 4, 20];
+x = [0.4, 15, 5, 22];
 
 rho = 1.225;
 Clnot = .247;
@@ -49,9 +49,12 @@ params.kw = 0.35;
 params.CLmax = 1.3;
 params.bmax = 4.0;
 
+lower_bounds = [0.3 4 2 8];
+upper_bounds = [3 20 10 40];
+
 %Find R and G values for every theta vector
 for i = 1:length(thetadist)
-    x = fmincon(@(x) fun(x,thetadist(i,:),params),x,[],[],[],[],[],[],@(x) nonlcon(x,thetadist(i,:),params),options);
+    x = fmincon(@(x) fun(x,thetadist(i,:),params),x,[],[],[],[],lower_bounds,upper_bounds,@(x) nonlcon(x,thetadist(i,:),params),options);
     xvec(i,:) = x;
     [R1,g1] = uav_range(x,thetadist(i,:),params);
     RVals(i) = R1;
@@ -68,7 +71,7 @@ evaluate(x, 'nurayn.hassan@colorado.edu');
 
 function R = fun(x,theta,params)
 [R,g] = uav_range(x,theta,params);
-R=-R;
+R=-R/1e5;
 end
 
 function [g,geq] = nonlcon(x,theta,params)
