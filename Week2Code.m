@@ -40,6 +40,9 @@ params.kw = 0.35;
 params.CLmax = 1.3;
 params.bmax = 4.0;
 
+lower_bounds = [0.3 4 2 8];
+upper_bounds = [3 20 10 40];
+
 %params.a = [rho, Clnot, CMnot, deltaCl, V, Clalpha, CMalpha, alphap, S, Cldelta, CMdelta, W];
 
 %params.b = [9.81,0.70,1.24,15,1.225,18,500,1.5,0.2,2,0.35,1.3,4];
@@ -60,7 +63,7 @@ geq = [];
 end
 options = optimoptions('fmincon', 'Algorithm', 'SQP', 'Display', 'off', 'OptimalityTolerance', 1e-10, 'StepTolerance', 1e-12, 'ConstraintTolerance', 1e-10, 'MaxIterations', 500, 'MaxFunctionEvaluations', 5000);
 
-x1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,params),options);
+x1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],lower_bounds,upper_bounds,@(x) nonlcon(x,theta,params),options);
 %R=EV(1-Vw^2/V)
 % q = 0.5*params.rho*x1(4)^2;
 % W = 9.81*(theta(1,1) + x1(3) + params.mfix + params.mmax);
@@ -74,7 +77,7 @@ x1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,p
 
 %R1 = fmincon(@(x) fun(x,theta,params),x,[],[],[],[],[],[],@(x) nonlcon(x,theta,params));
 
-%%Generate and plot different distirb
+%%Generate and plot different distributions
 thetaparams = scenario('nominal');
 theta = scenario('sample',thetaparams,1000);
 
